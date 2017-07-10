@@ -5,12 +5,15 @@ LOCAL_SRC_FILES := \
     MemoryHeapIon.cpp \
 
 LOCAL_C_INCLUDES:= \
+	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include \
 	$(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr/include/video
+
+LOCAL_ADDITIONAL_DEPENDENCIES := $(TARGET_OUT_INTERMEDIATES)/KERNEL_OBJ/usr
 
 LOCAL_SHARED_LIBRARIES :=       \
         libutils                \
         libcutils               \
-				liblog
+		liblog
 
 LOCAL_MODULE := libmemoryheapion
 LOCAL_MODULE_TAGS := optional

@@ -26,11 +26,8 @@
 #include <sys/stat.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
-
 #include <cutils/log.h>
-
 #include <linux/ion.h>
-
 #include "ion_sprd.h"
 #include "MemoryHeapIon.h"
 
@@ -611,7 +608,7 @@ int MemoryHeapIon::get_kaddr(uint64_t *kaddr, size_t *size) {
         struct ion_custom_data  custom_data;
 
         kmap_data.fd_buffer = mFD;
-        custom_data.cmd = ION_SPRD_CUSTOM_MAP_KERNEL;
+        custom_data.cmd = ION_SPRD_CUSTOM_MAP;
         custom_data.arg = (unsigned long)&kmap_data;
         ret = ioctl(mIonDeviceFd, ION_IOC_CUSTOM, &custom_data);
         *kaddr = kmap_data.kaddr;
@@ -635,7 +632,7 @@ int MemoryHeapIon::free_kaddr() {
         struct ion_custom_data  custom_data;
 
         kunmap_data.fd_buffer = mFD;
-        custom_data.cmd = ION_SPRD_CUSTOM_UNMAP_KERNEL;
+        custom_data.cmd = ION_SPRD_CUSTOM_UNMAP;
         custom_data.arg = (unsigned long)&kunmap_data;
         ret = ioctl(mIonDeviceFd, ION_IOC_CUSTOM, &custom_data);
         if (ret) {
@@ -660,7 +657,7 @@ int MemoryHeapIon::Get_kaddr(int buffer_fd,
         struct ion_custom_data  custom_data;
 
         kmap_data.fd_buffer =  buffer_fd;
-        custom_data.cmd = ION_SPRD_CUSTOM_MAP_KERNEL;
+        custom_data.cmd = ION_SPRD_CUSTOM_MAP;
         custom_data.arg = (unsigned long)&kmap_data;
         ret = ioctl(fd,ION_IOC_CUSTOM,&custom_data);
         *kaddr = kmap_data.kaddr;
@@ -687,7 +684,7 @@ int MemoryHeapIon::Free_kaddr(int buffer_fd) {
         struct ion_custom_data  custom_data;
 
         kunmap_data.fd_buffer =  buffer_fd;
-        custom_data.cmd = ION_SPRD_CUSTOM_UNMAP_KERNEL;
+        custom_data.cmd = ION_SPRD_CUSTOM_UNMAP;
         custom_data.arg = (unsigned long)&kunmap_data;
         ret = ioctl(fd,ION_IOC_CUSTOM,&custom_data);
         close(fd);

@@ -25,7 +25,6 @@
 #include "vdi.h"
 #include "vdi_osal.h"
 
-
 typedef pthread_mutex_t	MUTEX_HANDLE;
 #define VPU_DEVICE_NAME "/dev/sprd_coda7l"
 
@@ -88,7 +87,6 @@ int vdi_probe(unsigned long coreIdx)
     return ret;
 }
 
-
 int vdi_init(unsigned long coreIdx)
 {
     vdi_info_t *vdi;
@@ -122,7 +120,6 @@ int vdi_init(unsigned long coreIdx)
     }
 
     VLOG(INFO, "[VDI] vdi->vpu_fd=%d \n", vdi->vpu_fd);
-
 
     memset(&vdi->vpu_buffer_pool, 0x00, sizeof(vpudrv_buffer_pool_t)*MAX_VPU_BUFFER_POOL);
 
@@ -228,7 +225,6 @@ int vdi_set_bit_firmware_to_pm(unsigned long coreIdx, const unsigned short *code
         return -1;
     }
 
-
     return 0;
 }
 
@@ -245,7 +241,6 @@ int vdi_release(unsigned long coreIdx)
 
     if (!vdi || vdi->vpu_fd == -1 || vdi->vpu_fd == 0x00)
         return 0;
-
 
     if (vdi_lock(coreIdx) < 0)
     {
@@ -293,7 +288,6 @@ int vdi_release(unsigned long coreIdx)
         memset(&vdi->vpu_common_memory, 0x00, sizeof(vpu_buffer_t));
     }
 
-
     if (vdi->vpu_instance_pool_memory.virt_addr)
     {
 #ifdef USE_MALLOC_FOR_INSTANCE_POOL
@@ -304,9 +298,7 @@ int vdi_release(unsigned long coreIdx)
 #endif
     }
 
-
     osal_memset(&vdi->vpu_instance_pool_memory, 0x00, sizeof(vpudrv_buffer_t));
-
 
     vdi->task_num--;
 
@@ -323,9 +315,6 @@ int vdi_release(unsigned long coreIdx)
 
     return 0;
 }
-
-
-
 
 int vdi_get_common_memory(unsigned long coreIdx, vpu_buffer_t *vb)
 {
@@ -344,7 +333,6 @@ int vdi_get_common_memory(unsigned long coreIdx, vpu_buffer_t *vb)
     return 0;
 }
 
-
 int allocate_common_memory(unsigned long coreIdx)
 {
     vdi_info_t *vdi = &s_vdi_info[coreIdx];
@@ -359,7 +347,6 @@ int allocate_common_memory(unsigned long coreIdx)
         return -1;
 
     osal_memset(&vdb, 0x00, sizeof(vpudrv_buffer_t));
-
 
     vdb.size = SIZE_COMMON*MAX_NUM_VPU_CORE;
 
@@ -415,8 +402,6 @@ int allocate_common_memory(unsigned long coreIdx)
 
     return 0;
 }
-
-
 
 vpu_instance_pool_t *vdi_get_instance_pool(unsigned long coreIdx)
 {
@@ -866,7 +851,6 @@ int vdi_read_memory(unsigned long coreIdx, unsigned int addr, unsigned char *dat
     return len;
 }
 
-
 int vdi_allocate_dma_memory(unsigned long coreIdx, vpu_buffer_t *vb)
 {
     vdi_info_t *vdi;
@@ -1152,7 +1136,6 @@ int vdi_wait_bus_busy(unsigned long coreIdx, int timeout, unsigned int gdi_busy_
 
 }
 
-
 int vdi_wait_vpu_busy(unsigned long coreIdx, int timeout, unsigned int addr_bit_busy_flag)
 {
 
@@ -1186,7 +1169,6 @@ int vdi_wait_vpu_busy(unsigned long coreIdx, int timeout, unsigned int addr_bit_
     return 0;
 
 }
-
 
 int vdi_wait_interrupt(unsigned long coreIdx, int timeout, unsigned int addr_bit_int_reason)
 {
@@ -1231,7 +1213,6 @@ int vdi_wait_interrupt(unsigned long coreIdx, int timeout, unsigned int addr_bit
 #endif
 }
 
-
 int vdiInit_lock()
 {
     pthread_mutex_lock(&g_vdi_init_lock);
@@ -1243,7 +1224,6 @@ void vdiInit_Unlock()
 {
     pthread_mutex_unlock(&g_vdi_init_lock);
 }
-
 
 static int read_pinfo_buffer(int coreIdx, int addr)
 {
@@ -1274,7 +1254,6 @@ static int read_pinfo_buffer(int coreIdx, int addr)
     //printf("[READ PINFO] ADDR[%x], DATA[%x]", addr, rdata);
     return rdata;
 }
-
 
 static void printf_gdi_info(int coreIdx, int num)
 {
@@ -1314,7 +1293,6 @@ static void printf_gdi_info(int coreIdx, int num)
         VLOG(INFO, "\n");
     }
 }
-
 
 void vdi_log(unsigned long coreIdx, int cmd, int step)
 {
@@ -1479,7 +1457,6 @@ void vdi_log(unsigned long coreIdx, int cmd, int step)
     {
 #if 0
 
-
 #define VDI_LOG_MBC_BUSY 0x0444
 #define VDI_LOG_MC_BASE	 0x0C00
 #define VDI_LOG_MC_BUSY	 0x0C04
@@ -1517,7 +1494,6 @@ void vdi_log(unsigned long coreIdx, int cmd, int step)
 
     }
 }
-
 
 int swap_endian(unsigned char *data, int len, int endian)
 {
@@ -1616,12 +1592,5 @@ int swap_endian(unsigned char *data, int len, int endian)
 
     return swap;
 }
-
-
-
-
-
-
-
 
 #endif	//#if defined(linux) || defined(__linux) || defined(ANDROID)
